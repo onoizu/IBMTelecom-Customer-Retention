@@ -4,7 +4,22 @@ COMP3134 BI-enabled CRM group project. Part B covers data preparation and explor
 
 ## Current stage
 
-Stage 1 is complete: the original Kaggle CSV is preserved and audited. No records have been cleaned, removed, imputed or encoded. Modeling, report prose and slides are later stages.
+Stages 1 and 2 are complete: the original Kaggle CSV is preserved and audited, and a separate cleaned CSV retains all 7,043 customers. Eleven whitespace-only TotalCharges values are represented as missing, with a new TotalChargesMissing indicator. No records are removed, no charges are imputed, and service categories are unchanged. EDA, modeling, report prose and slides are later stages.
+
+## Reproduce cleaning
+
+```sh
+python3 scripts/clean_data.py
+python3 scripts/verify_cleaning.py
+python3 scripts/run_audit_notebook.py --stage cleaning
+```
+
+- [Cleaned data](data/processed/telco_clean.csv) and [loading schema](data/processed/schema.json)
+- [Cleaning counts and limitations](reports/cleaning/cleaning.md)
+- [Cell-level change log](reports/cleaning/cell_changes.csv)
+- [Executed cleaning notebook](notebooks/02_data_cleaning.ipynb)
+
+The cleaned CSV contains 22 fields. Empty TotalCharges fields mean unknown, not zero. The indicator is a data-quality flag, not an automatically selected model feature. CSV has no native types: numeric parsing and model-side imputation must be explicit.
 
 ## Reproduce the audit
 

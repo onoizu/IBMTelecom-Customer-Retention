@@ -16,7 +16,17 @@ Suggested filenames: `01_load_and_inspect.png`, `02_investigate_blanks.png`, `03
 
 The audit Markdown remains useful as a result summary, and the decision log preserves rationale. Neither is the primary process screenshot.
 
-## Later stages
+## Stage 2 cleaning checkpoints
+
+Open `notebooks/02_data_cleaning.ipynb`. Its saved outputs come from actual execution using `python3 scripts/run_audit_notebook.py --stage cleaning`.
+
+1. **Transformation and execution**: capture section 1 code and output, including the printed normalization function and actual cleaning counts. This shows the implemented rule rather than a prose conclusion.
+2. **Before and after**: capture section 2 code and its table of 11 affected customers. Keep the raw `' '`, cleaned `''`, indicator and tenure visible. The empty string is the documented missing representation, not zero.
+3. **Verification**: capture section 3 assertions and output, showing that only the intended cells changed, real zero is preserved and the original file checksum still matches. Use two screenshots if needed for legibility.
+
+Suggested filenames: `04_cleaning_rule_and_run.png`, `05_cleaning_before_after.png`, `06_cleaning_verification.png`. Capturing the first two is sufficient for a compact process record; keep the notebook for full validation evidence. No Git history screenshot is needed.
+
+## Later stage checkpoints
 
 - Cleaning: show the implemented transformation, affected counts and checks in the same view.
 - EDA: show the grouping or calculation code and resulting chart/table; state denominators.

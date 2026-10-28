@@ -9,9 +9,14 @@ import json
 import os
 from pathlib import Path
 import sys
+import argparse
 
 ROOT = Path(__file__).resolve().parents[1]
-path = ROOT / 'notebooks/01_raw_data_audit.ipynb'
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--stage', choices=['audit', 'cleaning'], default='audit')
+stage = parser.parse_args().stage
+filename = '01_raw_data_audit.ipynb' if stage == 'audit' else '02_data_cleaning.ipynb'
+path = ROOT / 'notebooks' / filename
 notebook = json.loads(path.read_text())
 namespace = {'__name__': '__main__'}
 os.chdir(ROOT)

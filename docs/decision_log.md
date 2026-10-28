@@ -1,6 +1,6 @@
 # Data Preparation Decision Log
 
-Date: 2026-10-29. Stage: raw data audit.
+Date: 2026-10-29. Stages: raw data audit and cleaning. Earlier alternatives are retained below; implementation updates distinguish the selected treatment from those alternatives.
 
 This log separates executed actions, measured evidence, proposed treatments and unresolved questions. It was prepared with Codex assistance. The student's own judgement on individual cleaning options has not yet been recorded; proposals must not be described as completed group discussions. Add actual agreement, disagreement and reasons when provided.
 
@@ -23,6 +23,12 @@ This log separates executed actions, measured evidence, proposed treatments and 
 - Course references: BI2 pp. 6 and 10 discuss missing data and discarding unsuitable responses, but do not prescribe an imputation rule for this dataset. Training-only fitting is a supplementary implementation safeguard.
 - Student judgement: not yet recorded. This field is not a requirement to halt independent work.
 
+### Implementation update for D02
+
+After authorization to continue, Option A was implemented for the cleaned data. All 7,043 records are retained. Eleven whitespace-only TotalCharges cells become empty CSV fields, explicitly defined as missing by the schema. No amount is imputed. TotalChargesMissing is added for all records: 11 ones and 7,032 zeros. The normalization rule reads only TotalCharges, not tenure or Churn. The indicator is retained for traceability; using it as a predictor is left to C.
+
+The affected IDs, source line numbers and before/after representations are in `reports/cleaning/cell_changes.csv`. All other original cells and row order remain unchanged. True zero values are preserved, invalid nonblank amounts raise an error, and rerunning reproduces identical outputs. Unknown charges still require a model-side decision; retaining missingness does not resolve their true value. No personal explanation from the student has been invented.
+
 ## D03 No-service categories are not missing values
 
 - Evidence: No phone service in MultipleLines agrees with PhoneService=No. No internet service in all six internet add-ons agrees with InternetService=No. All these consistency checks return zero violations.
@@ -31,12 +37,16 @@ This log separates executed actions, measured evidence, proposed treatments and 
 - Rationale: the categories contain business information; merging loses that distinction.
 - Course reference: BI2 pp. 43-53, coding meanings and nominal categories.
 
+Implementation update: all original category strings were preserved exactly, including no-service states. Service-dependency rules are validated before export; conflicts stop processing rather than trigger an undocumented repair.
+
 ## D04 Checks do not automatically justify deleting records
 
 - Evidence: zero exact duplicate rows and duplicate customer IDs. The three numeric fields contain no negative values; nonblank values parse as finite numbers. Tenure has no fractional values.
 - Supplementary screening: no values are flagged by the 1.5 IQR rule in those three fields. This does not establish the absence of all business anomalies. The threshold is an implementation choice; the course discusses IQR and distributions.
 - Proposal: do not delete records merely to demonstrate cleaning. Retain valid high charges and long tenures. Do not require TotalCharges to equal MonthlyCharges multiplied by tenure, because current monthly charges do not establish historical monthly prices.
 - Course references: BI2 pp. 65, 74-79 and 94-99, dispersion, extreme values and distributions.
+
+Implementation update: zero records deleted and zero outliers capped. The cleaning script rejects invalid amounts, duplicate IDs, invalid categories and inconsistent base/add-on service states rather than silently changing the data.
 
 ## D05 Observation period and modeling boundaries
 

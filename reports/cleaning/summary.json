@@ -1,0 +1,32 @@
+{
+  "input_rows": 7043,
+  "output_rows": 7043,
+  "input_columns": 21,
+  "output_columns": 22,
+  "deleted_rows": 0,
+  "imputed_values": 0,
+  "recoded_category_values": 0,
+  "changed_original_cells": 11,
+  "missing_total_charges": 11,
+  "added_indicator_cells": 7043,
+  "indicator_ones": 11,
+  "indicator_zeros": 7032,
+  "churn_before": {
+    "No": 5174,
+    "Yes": 1869
+  },
+  "churn_after": {
+    "No": 5174,
+    "Yes": 1869
+  },
+  "raw_sha256": "88be4b93fbe0cc83421af1c503794c97c342eca914c1576db7c276e61d61358a",
+  "clean_sha256": "dd268a5970f95d3382f0f985bd8ac917e78203e2d055939ae7dfdc96d661823f",
+  "checks": {
+    "raw_unchanged": true,
+    "all_customers_retained_in_order": true,
+    "all_other_original_cells_unchanged": true,
+    "csv_round_trip": true,
+    "missingness_indicator_matches": true,
+    "target_counts_unchanged": true
+  }
+}

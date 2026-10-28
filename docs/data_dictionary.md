@@ -26,11 +26,21 @@ Working definitions for the 21 raw fields. Exact age thresholds, currency and ob
 | TotalCharges | Accumulated charges; currency and blank-value meaning unverified | Numeric amount | 18.8 to 8684.8; 11 single-space values ' ' |
 | Churn | Churn target; source extract says left within the last month, calendar month unknown | Categorical | No / Yes |
 
-## Future encoding and derived metrics
+## Cleaned output schema
+
+The original 21 fields remain in their original order. TotalCharges now uses an empty CSV field for its 11 missing values. Its other values, and all values in the other original fields, are unchanged. CSV still stores text representations; `data/processed/schema.json` specifies the intended types.
+
+| Added field | Definition | Type | Counts | Role |
+| --- | --- | --- | --- | --- |
+| TotalChargesMissing | 1 if the raw TotalCharges is blank after stripping whitespace, otherwise 0 | Binary integer | 1: 11; 0: 7,032 | Data-quality flag; predictor inclusion is not yet decided |
+
+The indicator is the only added field. There are no tenure bands, service counts or encoded model features.
+
+## Future model encoding and business metrics
 
 - Proposed binary mapping: Yes=1, No=0; not yet implemented.
 - SeniorCitizen 0/1 values are category flags, not ages.
 - Define model encoding later; BI2 pp. 51-53 discuss one-hot encoding for nominal categories.
 - Contract categories have a duration order, but codes 0/1/2 would not be actual month counts. Record the encoding rationale.
 - No phone service and No internet service are meaningful states, not blanks.
-- No derived metrics have been created. Specify consistent groups and service-count definitions before handoff.
+- No business-derived metrics have been created. Specify consistent groups and service-count definitions before handoff.

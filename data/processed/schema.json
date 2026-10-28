@@ -1,0 +1,122 @@
+{
+  "file": "telco_clean.csv",
+  "encoding": "utf-8",
+  "delimiter": ",",
+  "missing_representation": "Empty CSV field, allowed only in TotalCharges",
+  "columns": [
+    {
+      "name": "customerID",
+      "semantic_type": "identifier string",
+      "nullable": false
+    },
+    {
+      "name": "gender",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "SeniorCitizen",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "Partner",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "Dependents",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "tenure",
+      "semantic_type": "nonnegative integer months",
+      "nullable": false
+    },
+    {
+      "name": "PhoneService",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "MultipleLines",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "InternetService",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "OnlineSecurity",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "OnlineBackup",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "DeviceProtection",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "TechSupport",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "StreamingTV",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "StreamingMovies",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "Contract",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "PaperlessBilling",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "PaymentMethod",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "MonthlyCharges",
+      "semantic_type": "nonnegative decimal amount",
+      "nullable": false
+    },
+    {
+      "name": "TotalCharges",
+      "semantic_type": "nullable nonnegative decimal amount",
+      "nullable": true
+    },
+    {
+      "name": "Churn",
+      "semantic_type": "categorical string",
+      "nullable": false
+    },
+    {
+      "name": "TotalChargesMissing",
+      "semantic_type": "binary integer flag",
+      "nullable": false
+    }
+  ],
+  "indicator_definition": "1 iff the source TotalCharges is empty after stripping whitespace; otherwise 0",
+  "target": "Churn",
+  "identifier": "customerID",
+  "note": "CSV has no stored types. Parse numeric columns when loading; empty charges must not become zero."
+}

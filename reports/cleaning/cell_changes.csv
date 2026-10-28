@@ -1,0 +1,12 @@
+csv_line,customerID,field,old_value_repr,new_value_repr,operation,reason
+490,4472-LVYGI,TotalCharges,' ','',whitespace_to_missing,Unknown is not assumed to be zero
+755,3115-CZMZD,TotalCharges,' ','',whitespace_to_missing,Unknown is not assumed to be zero
+938,5709-LVOEQ,TotalCharges,' ','',whitespace_to_missing,Unknown is not assumed to be zero
+1084,4367-NUYAO,TotalCharges,' ','',whitespace_to_missing,Unknown is not assumed to be zero
+1342,1371-DWPAZ,TotalCharges,' ','',whitespace_to_missing,Unknown is not assumed to be zero
+3333,7644-OMVMY,TotalCharges,' ','',whitespace_to_missing,Unknown is not assumed to be zero
+3828,3213-VVOLG,TotalCharges,' ','',whitespace_to_missing,Unknown is not assumed to be zero
+4382,2520-SGTTA,TotalCharges,' ','',whitespace_to_missing,Unknown is not assumed to be zero
+5220,2923-ARZLG,TotalCharges,' ','',whitespace_to_missing,Unknown is not assumed to be zero
+6672,4075-WKNIU,TotalCharges,' ','',whitespace_to_missing,Unknown is not assumed to be zero
+6756,2775-SEFEE,TotalCharges,' ','',whitespace_to_missing,Unknown is not assumed to be zero

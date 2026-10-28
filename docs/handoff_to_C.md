@@ -1,13 +1,16 @@
-# Stage 1 Handoff to Member C
+# Stage 2 Handoff to Member C
 
-The current output is a raw-data audit, not final modeling input. No model training, train/test split, imputation, encoding or feature creation has taken place.
+The cleaned dataset is available at `data/processed/telco_clean.csv`. Read `data/processed/schema.json` for the loading contract. Model training, splitting, imputation and feature encoding are still outstanding.
 
-- Raw data: 7,043 unique customers and 21 fields.
-- Target: Churn, with 1,869 Yes and 5,174 No labels. Proposed future mapping: Yes=1 and No=0; not yet applied.
-- Identifier: retain customerID for tracing, but exclude it from predictors.
-- TotalCharges: 11 space-only values, all with tenure=0. Proposed cleaning approach: retain customers and mark missing charges explicitly. The model-side treatment remains open. See decision D02.
-- Service categories: preserve the distinction between No, No phone service and No internet service. Refer to BI2 for nominal one-hot encoding.
-- Splitting: C owns the random seed, split and evaluation. Fit any learned imputation or encoding on training data only.
-- Derived metrics: tenure groups and service counts have not been created. Define boundaries, inclusion of base services and treatment of no-service states before use.
-- Time scope: no calendar dates; this is not an already validated future-period prediction exercise.
-- See README for checks and reproduction. A later stage will provide cleaned data and operation counts.
+- Size: 7,043 unique customers, 22 fields: 21 original fields plus TotalChargesMissing.
+- Target: Churn, unchanged at 1,869 Yes and 5,174 No. A future Yes=1/No=0 mapping has not been applied.
+- Identifier: customerID is retained for tracing; exclude it from predictors.
+- TotalCharges: 11 whitespace-only source values are now empty CSV fields meaning missing, not zero. All 11 customers remain. Their tenure is zero and their Churn label is No, but neither field was used to decide missingness.
+- TotalChargesMissing: 1 for those 11 records, 0 for the other 7,032. This is an audit flag; decide separately whether it belongs in the model. It is not evidence of a causal relationship with churn.
+- All other original cell values, service categories, customer IDs and row order are unchanged. No records were dropped, amounts imputed or values capped.
+- CSV stores no types. Parse tenure as an integer and charges as numeric values, allowing missing TotalCharges. pandas default NA parsing recognizes empty fields; csv.DictReader returns empty strings.
+- C owns the train/test split, random seed and evaluation. Fit any learned imputation and encoding on training data only. A model that cannot accept missing values needs preprocessing before fitting.
+- No tenure bands or service counts have been created. Define boundaries, inclusion of base services and handling of no-service states before deriving these metrics.
+- There are no calendar dates; do not describe this as a validated future-period forecast.
+
+Rebuild with `python3 scripts/clean_data.py` and verify with `python3 scripts/verify_cleaning.py`. The cell-level log is in `reports/cleaning/cell_changes.csv`, the counts in `reports/cleaning/summary.json`, and the reasoning in decision D02. The executed notebook `notebooks/02_data_cleaning.ipynb` shows the transformation and checks. EDA will follow in Stage 3.
