@@ -1,14 +1,14 @@
-# 第一阶段验证记录
+# Stage 1 Validation Record
 
-2026-10-29 已执行以下检查：
+Checks performed on 2026-10-29:
 
-1. 从仓库外的 `/tmp` 运行审查脚本，确认路径不依赖当前终端所在目录。
-2. 比较重新运行前后全部 `reports/audit/` 输出文件的 SHA-256，结果一致。
-3. 比较原始 CSV 的 SHA-256，结果与来源清单一致，审查前后字节未改变。
-4. 使用另一段基于 CSV 列位置的计数代码核对记录数、Churn=Yes 数量、TotalCharges 空白数量，与审查脚本结果一致。
-5. 检查 Yes 与 No 数量合计等于全部 7,043 条记录。
-6. 执行 `git diff --check`，已跟踪文件的改动未发现空白格式错误。
+1. Run the audit from outside the repository, using `/tmp`, to verify path independence.
+2. Compare SHA-256 hashes of every audit output before and after a rerun: identical.
+3. Verify the original CSV against its source manifest: raw bytes unchanged.
+4. Independently count records, Yes labels and blank TotalCharges using CSV column positions: counts reconcile with the audit.
+5. Verify that Yes and No labels sum to 7,043 records.
+6. Run `git diff --check`: no whitespace errors in tracked changes.
 
-已确认输出：7,043 行、21 字段、1,869 条 Yes、5,174 条 No、11 个 TotalCharges 空白、0 个重复客户 ID、0 个完全重复行。类别及服务依赖规则未发现冲突。
+Confirmed: 7,043 rows, 21 fields, 1,869 Yes labels, 5,174 No labels, 11 blank TotalCharges, zero duplicate IDs and zero exact duplicate rows. No violations were found in the specified category and service-dependency checks.
 
-这些检查证明当前审查输出可复现，不证明所有潜在业务问题都已排除。尚未清洗数据、训练模型或制作最终 report/PPT。
+These checks establish reproducibility of the audit, not the absence of every potential business issue. Cleaning, modeling and final report/slides have not been completed.

@@ -22,6 +22,11 @@ The script resolves paths relative to the repository, verifies the raw SHA-256, 
 - [Source and observation-period limitations](docs/data_source.md)
 - [Handoff for member C](docs/handoff_to_C.md)
 - [Screenshot guide](docs/screenshots.md)
+- [Executable audit walkthrough with actual outputs](notebooks/01_raw_data_audit.ipynb)
+
+To regenerate the notebook outputs with standard Python, run `python3 scripts/run_audit_notebook.py`. This sequential runner executes the saved cells; it is not a Jupyter kernel. The notebook can also be run in a Python notebook editor. Capture code and actual output together for process screenshots.
+
+All project Markdown, code comments, notebook explanations and commit messages are written in English.
 
 Raw source: [BlastChar Telco Customer Churn on Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn), version 1 as reported at retrieval. The exact downloaded CSV and source metadata are in `data/raw/`.
 

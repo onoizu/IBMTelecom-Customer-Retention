@@ -1,52 +1,52 @@
-# 数据准备决策记录
+# Data Preparation Decision Log
 
-记录日期：2026-10-29。阶段：原始数据审查。
+Date: 2026-10-29. Stage: raw data audit.
 
-以下区分已执行操作、实测证据、下一阶段建议及待确认事项。由 Codex 辅助整理，尚未记录用户对具体清洗选项的个人判断；不得把建议写成已经发生的小组讨论。用户可在每项下补充自己的认可、异议和理由。
+This log separates executed actions, measured evidence, proposed treatments and unresolved questions. It was prepared with Codex assistance. The student's own judgement on individual cleaning options has not yet been recorded; proposals must not be described as completed group discussions. Add actual agreement, disagreement and reasons when provided.
 
-## D01 保留原始字符再检查缺失
+## D01 Preserve raw strings when checking missing values
 
-- 观察与证据：7,043 行中，TotalCharges 有 11 个值为单个空格 `' '`；空字符串检查会得到 0。证据见审查报告截图 B。
-- 可选方法：只查解析器识别的空值；或保留字符原文，并检查去掉首尾空白后是否为空。
-- 已执行：采用后者进行只读检查，记录 CSV 行号和客户 ID。没有把原始空格改成零或缺失标记。
-- 理由：缺失是数据含义问题，不应完全依赖文件解析器默认行为；保留原文便于追溯。
-- 课堂依据：BI2 第 10 页，一致性与缺失处理。
+- Evidence: 11 of 7,043 TotalCharges values contain a single space, `' '`. An empty-string-only check returns zero. The audit report lists the affected CSV lines and IDs.
+- Alternatives: rely solely on parser null detection, or preserve strings and also check whether they are empty after trimming whitespace.
+- Executed: the latter read-only check. No raw spaces were replaced with zero or a missing-value marker.
+- Rationale: missingness is not determined solely by parser defaults. Preserving the source representation makes the finding traceable.
+- Course reference: BI2 p. 10, consistency and missing values.
 
-## D02 如何处理累计费用的 11 个空白值
+## D02 Treating the 11 blank accumulated charges
 
-- 观察与证据：11 条记录的 tenure 均为 0、Churn 均为 No；样本中 tenure 为 0 的记录也恰好是这 11 条。它们占全部样本约 0.1562%。
-- 解释候选：可能与刚入网或尚未形成累计账单有关，但文件没有账单日期，不能证明具体原因，也不能证明真实累计费用必为零。
-- 方案 A：保留 7,043 条记录，将空白显式标为缺失，保留缺失指示。后续模型需要时，在训练集内拟合填补器。优点是保留新客户；局限是模型仍需明确处理缺失。
-- 方案 B：删除这 11 条，得到 7,032 条完整记录。实现简单，但会移除本样本全部 tenure 为 0 的客户。样本流失比例会从 1,869/7,043 变成 1,869/7,032，不应隐藏分母变化。
-- 方案 C：填零。保留记录且容易解释，但需要接受“累计费用为零”的额外假设。
-- 下一阶段建议：优先 A，保留客户信息和未知状态；必要时用 B 做敏感性对照。尚未实施。
-- 课堂依据：BI2 第 6、10 页列举缺失与舍弃等处理思路，但没有指定本数据必须使用哪一种填补法。训练集内拟合是补充实施规范。
-- 用户判断：待补充；没有要求暂停所有工作等待此栏填写。
+- Evidence: all 11 records have tenure=0 and Churn=No. They are also all of the zero-tenure records in the sample and represent approximately 0.1562% of customers.
+- Possible explanation: recently joined customers may not yet have accumulated bills. Billing dates are absent, so neither the cause nor a true accumulated charge of zero is established.
+- Option A: retain all 7,043 records, represent blanks explicitly as missing and retain a missingness indicator. If required by the model, fit an imputer on training data only. This retains new customers but leaves a modeling decision to be made.
+- Option B: remove the 11 records, leaving 7,032 complete cases. This is simple but removes every zero-tenure customer in this sample. The churn-label share changes from 1,869/7,043 to 1,869/7,032; the denominator change must be disclosed.
+- Option C: fill with zero. This retains the records but adds an unverified assumption about accumulated charges.
+- Proposal: prefer A; use B as a sensitivity comparison if needed. No treatment has been applied.
+- Course references: BI2 pp. 6 and 10 discuss missing data and discarding unsuitable responses, but do not prescribe an imputation rule for this dataset. Training-only fitting is a supplementary implementation safeguard.
+- Student judgement: not yet recorded. This field is not a requirement to halt independent work.
 
-## D03 无服务类别不等于缺失
+## D03 No-service categories are not missing values
 
-- 观察与证据：MultipleLines 的 `No phone service` 与 PhoneService=No 一致；六个互联网附加服务的 `No internet service` 与 InternetService=No 一致，各检查均无冲突。
-- 可选方法：保留原类别；合并成 No；误当缺失填补。
-- 下一阶段建议：清洗数据保留原类别，保留“没有基础服务”和“有基础服务但没买附加服务”的区别。是否为某个特定派生指标合并，应另外写明公式。
-- 理由：类别包含业务含义，不是错误字符串；合并会丢失信息。
-- 课堂依据：BI2 第 43–53 页，编码含义及无序类别编码。
+- Evidence: No phone service in MultipleLines agrees with PhoneService=No. No internet service in all six internet add-ons agrees with InternetService=No. All these consistency checks return zero violations.
+- Alternatives: preserve these categories, merge them with No, or incorrectly treat them as missing.
+- Proposal: preserve the distinction between lacking a base service and not purchasing an add-on. Any later merging for a derived metric must have an explicit definition.
+- Rationale: the categories contain business information; merging loses that distinction.
+- Course reference: BI2 pp. 43-53, coding meanings and nominal categories.
 
-## D04 重复与异常检查不自动触发删除
+## D04 Checks do not automatically justify deleting records
 
-- 证据：完全重复行和重复客户 ID 均为 0；三个数值字段没有负值，非空值均能解析为有限数值；tenure 没有小数值。
-- 补充初筛：三个数值字段按 1.5 IQR 规则均无标记。没有据此声称所有业务异常均不存在。该阈值是额外检查选择，课件依据仅覆盖 IQR 和分布描述。
-- 下一阶段建议：不为“体现清洗”而删除记录；保留正常的高费用、长 tenure 客户。不要求 TotalCharges 严格等于 MonthlyCharges × tenure，因为当前月费不能证明历史每月费用恒定。
-- 课堂依据：BI2 第 65、74–79、94–99 页，离散程度、极端值与分布。
+- Evidence: zero exact duplicate rows and duplicate customer IDs. The three numeric fields contain no negative values; nonblank values parse as finite numbers. Tenure has no fractional values.
+- Supplementary screening: no values are flagged by the 1.5 IQR rule in those three fields. This does not establish the absence of all business anomalies. The threshold is an implementation choice; the course discusses IQR and distributions.
+- Proposal: do not delete records merely to demonstrate cleaning. Retain valid high charges and long tenures. Do not require TotalCharges to equal MonthlyCharges multiplied by tenure, because current monthly charges do not establish historical monthly prices.
+- Course references: BI2 pp. 65, 74-79 and 94-99, dispersion, extreme values and distributions.
 
-## D05 观察期与建模边界
+## D05 Observation period and modeling boundaries
 
-- 证据：没有日期字段；Churn 为 Yes 的 1,869 条、No 的 5,174 条。
-- 下一阶段建议：将 tenure 用作客户任期，报告样本流失标签比例；不构造虚假的日历 cohort，不称已实现未来月份预测。分训练/测试集与模型评估由 C 接手。
-- 交接：customerID 用于追溯，不作为预测变量；Churn 是目标，不能进入输入特征。后续分组阈值与服务数量等派生指标尚未定案。
-- 课堂依据：BI2 第 42 页，横截面与时间序列；BI4 第 36–38 页，分类、测试集与类别不平衡。
+- Evidence: no date fields; 1,869 Yes labels and 5,174 No labels.
+- Proposal: use tenure as duration and describe the sample label share. Do not invent calendar cohorts or claim validated future-month prediction. Member C owns train/test splitting and evaluation.
+- Handoff: customerID supports tracing, not prediction. Churn is the target and must not appear among predictors. Group thresholds and derived service counts are not yet defined.
+- Course references: BI2 p. 42, cross-sectional and time-series data; BI4 pp. 36-38, classification, test data and class imbalance.
 
-## D06 为报告保留可追溯的依据
+## D06 Retain traceable evidence for report writing
 
-- 已执行：保存来源、原始校验值、审查脚本、生成结果及此记录。
-- 写作原则：实测结果用确定语气；原因解释标注为推测；清洗建议不能写成已经执行。模型前处理与原始数据清洗分开说明。
-- 下一阶段更新方式：实施某个方案后，在对应条目添加“最终选择、处理数量、验证结果和局限”；不删除已考虑过的合理替代方案。
+- Executed: preserve provenance, raw checksum, audit script, generated results and this decision log.
+- Writing rule: state measurements as observations, label explanations as hypotheses and do not describe proposals as completed cleaning. Distinguish raw-data cleaning from model preprocessing.
+- Next update: append the chosen treatment, affected counts, validation and limitations when implemented. Retain reasonable alternatives considered.

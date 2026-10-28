@@ -1,20 +1,24 @@
-# 过程截图安排
+# Screenshots of Executed Work
 
-截图用于展示真实操作和检查结果，不能替代原始数据、脚本及可复现输出。无需截取全部代码，也不要重新摆拍未实际执行的操作。
+Capture the code and its actual output together. A screenshot of a written conclusion or decision log is not evidence of execution. GitHub already retains commit history; no commit screenshot is required.
 
-## 当前阶段可以截图
+## Stage 1 notebook
 
-1. 打开 `reports/audit/audit.md`，截“截图 A 数据概览”，保留标题、来源、行列数、重复检查和缺失数量。建议文件名 `01_raw_data_overview.png`。
-2. 截同文件“截图 B 缺失值证据”，包括 11 条记录、原始单空格、tenure 与 Churn，建议文件名 `02_missing_value_evidence.png`。
-3. 打开 `docs/decision_log.md` 的 D02，截证据、候选方案和暂定建议，展示真实分析判断。建议文件名 `03_missing_value_options.png`。
-4. 本阶段 commit 完成后，在 Git 历史或终端查看 `git show -1 --stat`，截提交标题、说明和文件概览。建议文件名 `04_stage1_commit.png`。本地 commit 不等于已推送 GitHub。
+Open `notebooks/01_raw_data_audit.ipynb` in a notebook editor such as VS Code or Jupyter. Saved outputs were produced by actually executing the cells with `python3 scripts/run_audit_notebook.py`, a sequential Python runner rather than a Jupyter kernel. GitHub displays saved code and output but does not execute them. To demonstrate your own run, select a Python kernel and run the cells in order, or run that command in your terminal. The notebook code uses the Python standard library only.
 
-若面板没有自动打开，可点击回复中的文件链接。上述内容均已保存，可稍后补截。
+1. **Load and inspect**: capture the code cell under `1. Load the original CSV` and its output. Include the file read, row/column count, first three records and raw checksum verification. This shows what was loaded and how its integrity was checked.
+2. **Investigate blanks**: capture the code cell under `2. Investigate TotalCharges blanks` and its output. Include the comparison between empty-string detection and whitespace-aware detection, the affected records and their tenure/churn counts. The output distinguishes a space from zero using repr.
+3. **Verify reproducibility**: capture the code cell under `3. Rerun the audit and verify preservation` with its output. Include the actual script invocation and the assertions comparing raw and output hashes.
 
-## 后续截图节点
+On macOS, press Shift+Command+4 and select the code plus output area. Keep the cell execution number and section title visible. If a cell and its output do not fit legibly, use two overlapping screenshots rather than hiding code or shrinking text excessively.
 
-- 清洗实施后：清洗前后数量、各操作影响数量与校验结果。
-- EDA 后：关键图表与分母说明。Report/PPT 使用导出的高清图，不依赖界面截图。
-- 写作后：最终 report/PPT 页面，以及相应提交记录。
+Suggested filenames: `01_load_and_inspect.png`, `02_investigate_blanks.png`, `03_verify_reproducibility.png`. Saved notebook outputs document a run performed with Codex assistance; do not describe them as a personal execution unless you rerun the notebook yourself.
 
-每个阶段完成时再提醒具体位置。本文件不意味着后续阶段已经完成。
+The audit Markdown remains useful as a result summary, and the decision log preserves rationale. Neither is the primary process screenshot.
+
+## Later stages
+
+- Cleaning: show the implemented transformation, affected counts and checks in the same view.
+- EDA: show the grouping or calculation code and resulting chart/table; state denominators.
+- Export high-resolution figures for report/slides separately from process screenshots.
+- Capture later stages only after the corresponding operations have actually run.

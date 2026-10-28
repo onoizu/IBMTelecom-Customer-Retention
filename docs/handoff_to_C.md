@@ -1,13 +1,13 @@
-# 给 C 的第一阶段交接
+# Stage 1 Handoff to Member C
 
-当前只是原始数据审查，不是最终建模输入。没有训练模型、划分训练测试集、填补、编码或添加特征。
+The current output is a raw-data audit, not final modeling input. No model training, train/test split, imputation, encoding or feature creation has taken place.
 
-- 原始数据：7,043 个唯一客户，21 个字段。
-- 目标：Churn，Yes 1,869，No 5,174。标签映射建议后续统一 Yes=1、No=0，尚未执行。
-- ID：customerID 留作核对与追溯，建议不要作为预测变量。
-- TotalCharges：11 个空格，均 tenure=0。建议清洗层保留客户并显式标记缺失；模型端缺失策略仍需确定。详见决策 D02。
-- 服务类别：保留 No、No phone service、No internet service 的含义。无序类别的模型编码参照 BI2 的 one-hot 思路。
-- 数据拆分：由 C 负责固定随机种子、划分和评估。若填补或编码需要拟合，拟合仅使用训练数据。
-- 派生指标：入网时长分组、服务数量等暂未生成。使用前写明区间边界、基础服务是否计入，以及无服务状态如何计数。
-- 时间边界：没有日历日期；不能当作已验证的未来时间预测任务。
-- 完整检查输出和复现命令见 README。后续阶段会提供独立的清洗数据与变更数量。
+- Raw data: 7,043 unique customers and 21 fields.
+- Target: Churn, with 1,869 Yes and 5,174 No labels. Proposed future mapping: Yes=1 and No=0; not yet applied.
+- Identifier: retain customerID for tracing, but exclude it from predictors.
+- TotalCharges: 11 space-only values, all with tenure=0. Proposed cleaning approach: retain customers and mark missing charges explicitly. The model-side treatment remains open. See decision D02.
+- Service categories: preserve the distinction between No, No phone service and No internet service. Refer to BI2 for nominal one-hot encoding.
+- Splitting: C owns the random seed, split and evaluation. Fit any learned imputation or encoding on training data only.
+- Derived metrics: tenure groups and service counts have not been created. Define boundaries, inclusion of base services and treatment of no-service states before use.
+- Time scope: no calendar dates; this is not an already validated future-period prediction exercise.
+- See README for checks and reproduction. A later stage will provide cleaned data and operation counts.
