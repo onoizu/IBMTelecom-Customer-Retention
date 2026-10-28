@@ -1,0 +1,112 @@
+{
+  "rows": 7043,
+  "columns": 21,
+  "sha256": "88be4b93fbe0cc83421af1c503794c97c342eca914c1576db7c276e61d61358a",
+  "blank_cells": {
+    "customerID": 0,
+    "gender": 0,
+    "SeniorCitizen": 0,
+    "Partner": 0,
+    "Dependents": 0,
+    "tenure": 0,
+    "PhoneService": 0,
+    "MultipleLines": 0,
+    "InternetService": 0,
+    "OnlineSecurity": 0,
+    "OnlineBackup": 0,
+    "DeviceProtection": 0,
+    "TechSupport": 0,
+    "StreamingTV": 0,
+    "StreamingMovies": 0,
+    "Contract": 0,
+    "PaperlessBilling": 0,
+    "PaymentMethod": 0,
+    "MonthlyCharges": 0,
+    "TotalCharges": 11,
+    "Churn": 0
+  },
+  "exact_duplicate_rows_excluding_first": 0,
+  "duplicate_customer_ids_excluding_first": 0,
+  "invalid_categories": {
+    "gender": 0,
+    "SeniorCitizen": 0,
+    "Partner": 0,
+    "Dependents": 0,
+    "PhoneService": 0,
+    "PaperlessBilling": 0,
+    "Churn": 0,
+    "MultipleLines": 0,
+    "InternetService": 0,
+    "OnlineSecurity": 0,
+    "OnlineBackup": 0,
+    "DeviceProtection": 0,
+    "TechSupport": 0,
+    "StreamingTV": 0,
+    "StreamingMovies": 0,
+    "Contract": 0,
+    "PaymentMethod": 0
+  },
+  "invalid_numeric_csv_lines": {
+    "tenure": [],
+    "MonthlyCharges": [],
+    "TotalCharges": []
+  },
+  "numeric_summary": {
+    "tenure": {
+      "nonmissing": 7043,
+      "min": 0.0,
+      "max": 72.0,
+      "mean": 32.37114865824223,
+      "median": 29.0,
+      "q1": 9.0,
+      "q3": 55.0,
+      "negative": 0,
+      "iqr_flags": 0
+    },
+    "MonthlyCharges": {
+      "nonmissing": 7043,
+      "min": 18.25,
+      "max": 118.75,
+      "mean": 64.76169246059918,
+      "median": 70.35,
+      "q1": 35.5,
+      "q3": 89.85,
+      "negative": 0,
+      "iqr_flags": 0
+    },
+    "TotalCharges": {
+      "nonmissing": 7032,
+      "min": 18.8,
+      "max": 8684.8,
+      "mean": 2283.3004408418656,
+      "median": 1397.475,
+      "q1": 401.45,
+      "q3": 3794.7375,
+      "negative": 0,
+      "iqr_flags": 0
+    }
+  },
+  "consistency_violations": {
+    "phone_service_vs_multiple_lines": 0,
+    "internet_service_vs_OnlineSecurity": 0,
+    "internet_service_vs_OnlineBackup": 0,
+    "internet_service_vs_DeviceProtection": 0,
+    "internet_service_vs_TechSupport": 0,
+    "internet_service_vs_StreamingTV": 0,
+    "internet_service_vs_StreamingMovies": 0,
+    "tenure_noninteger": 0
+  },
+  "churn_counts": {
+    "No": 5174,
+    "Yes": 1869
+  },
+  "churn_share": 0.2653698707936959,
+  "missing_total_charges_tenure_counts": {
+    "0": 11
+  },
+  "missing_total_charges_churn_counts": {
+    "No": 11
+  },
+  "zero_tenure_rows": 11,
+  "raw_unchanged": true
+}

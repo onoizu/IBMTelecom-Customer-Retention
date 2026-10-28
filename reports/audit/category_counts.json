@@ -1,0 +1,81 @@
+{
+  "gender": {
+    "Female": 3488,
+    "Male": 3555
+  },
+  "SeniorCitizen": {
+    "0": 5901,
+    "1": 1142
+  },
+  "Partner": {
+    "No": 3641,
+    "Yes": 3402
+  },
+  "Dependents": {
+    "No": 4933,
+    "Yes": 2110
+  },
+  "PhoneService": {
+    "No": 682,
+    "Yes": 6361
+  },
+  "PaperlessBilling": {
+    "No": 2872,
+    "Yes": 4171
+  },
+  "Churn": {
+    "No": 5174,
+    "Yes": 1869
+  },
+  "MultipleLines": {
+    "No": 3390,
+    "No phone service": 682,
+    "Yes": 2971
+  },
+  "InternetService": {
+    "DSL": 2421,
+    "Fiber optic": 3096,
+    "No": 1526
+  },
+  "OnlineSecurity": {
+    "No": 3498,
+    "No internet service": 1526,
+    "Yes": 2019
+  },
+  "OnlineBackup": {
+    "No": 3088,
+    "No internet service": 1526,
+    "Yes": 2429
+  },
+  "DeviceProtection": {
+    "No": 3095,
+    "No internet service": 1526,
+    "Yes": 2422
+  },
+  "TechSupport": {
+    "No": 3473,
+    "No internet service": 1526,
+    "Yes": 2044
+  },
+  "StreamingTV": {
+    "No": 2810,
+    "No internet service": 1526,
+    "Yes": 2707
+  },
+  "StreamingMovies": {
+    "No": 2785,
+    "No internet service": 1526,
+    "Yes": 2732
+  },
+  "Contract": {
+    "Month-to-month": 3875,
+    "One year": 1473,
+    "Two year": 1695
+  },
+  "PaymentMethod": {
+    "Bank transfer (automatic)": 1544,
+    "Credit card (automatic)": 1522,
+    "Electronic check": 2365,
+    "Mailed check": 1612
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "dataset_page": "https://www.kaggle.com/datasets/blastchar/telco-customer-churn",
+  "download_url": "https://www.kaggle.com/api/v1/datasets/download/blastchar/telco-customer-churn",
+  "retrieved_at_utc": "2026-10-28T17:13:43.188520+00:00",
+  "file": "WA_Fn-UseC_-Telco-Customer-Churn.csv",
+  "bytes": 977501,
+  "sha256": "88be4b93fbe0cc83421af1c503794c97c342eca914c1576db7c276e61d61358a",
+  "zip_sha256": "cf7e6dcd8a238ecaa841a7d133142525453992d8d5e3ef6d1e5f0d359e7bf444",
+  "preservation": "CSV extracted byte-for-byte; no cleaning or reserialization.",
+  "dataset_version": 1,
+  "dataset_last_updated": "2018-02-23T18:20:00.21Z",
+  "license_label": "Data files \u00a9 Original Authors",
+  "metadata_url": "https://www.kaggle.com/api/v1/datasets/list?search=telco-customer-churn&user=blastchar"
+}
