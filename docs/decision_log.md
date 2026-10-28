@@ -1,6 +1,6 @@
 # Data Preparation Decision Log
 
-Date: 2026-10-29. Stages: raw data audit and cleaning. Earlier alternatives are retained below; implementation updates distinguish the selected treatment from those alternatives.
+Date: 2026-10-29. Stages: raw data audit, cleaning and descriptive EDA. Earlier alternatives are retained below; implementation updates distinguish the selected treatment from those alternatives.
 
 This log separates executed actions, measured evidence, proposed treatments and unresolved questions. It was prepared with Codex assistance. The student's own judgement on individual cleaning options has not yet been recorded; proposals must not be described as completed group discussions. Add actual agreement, disagreement and reasons when provided.
 
@@ -19,7 +19,7 @@ This log separates executed actions, measured evidence, proposed treatments and 
 - Option A: retain all 7,043 records, represent blanks explicitly as missing and retain a missingness indicator. If required by the model, fit an imputer on training data only. This retains new customers but leaves a modeling decision to be made.
 - Option B: remove the 11 records, leaving 7,032 complete cases. This is simple but removes every zero-tenure customer in this sample. The churn-label share changes from 1,869/7,043 to 1,869/7,032; the denominator change must be disclosed.
 - Option C: fill with zero. This retains the records but adds an unverified assumption about accumulated charges.
-- Proposal: prefer A; use B as a sensitivity comparison if needed. No treatment has been applied.
+- Initial proposal at Stage 1: prefer A; use B as a sensitivity comparison if needed. See the implementation update below for the treatment subsequently applied.
 - Course references: BI2 pp. 6 and 10 discuss missing data and discarding unsuitable responses, but do not prescribe an imputation rule for this dataset. Training-only fitting is a supplementary implementation safeguard.
 - Student judgement: not yet recorded. This field is not a requirement to halt independent work.
 
@@ -60,3 +60,26 @@ Implementation update: zero records deleted and zero outliers capped. The cleani
 - Executed: preserve provenance, raw checksum, audit script, generated results and this decision log.
 - Writing rule: state measurements as observations, label explanations as hypotheses and do not describe proposals as completed cleaning. Distinguish raw-data cleaning from model preprocessing.
 - Next update: append the chosen treatment, affected counts, validation and limitations when implemented. Retain reasonable alternatives considered.
+
+## D07 Scope of exploratory analysis and model ownership
+
+The updated team arrangement uses a decision tree for C, replacing the old K-means description. B owns descriptive EDA; C owns feature preprocessing, splitting, tuning and evaluation; D owns model-informed profiles and final business insights. No clustering, K selection, customer segment labels or tree training is included here.
+
+Full-sample plots describe the dataset and are not independent model-validation evidence. C must select and tune features using training/validation data and keep test evaluation separate. No threshold is optimized against the full-sample target.
+
+## D08 Denominators and unknown charges in EDA
+
+- Choice: group churn share = number of Yes labels in that group / all customers in that group. Display both counts alongside rates.
+- Alternative rejected: dividing by all churners answers a different question and can misrepresent group risk.
+- Unknown TotalCharges are excluded only from calculations requiring that variable. Other analyses keep 7,043 records. Every numeric summary and correlation includes its actual sample size.
+- No-service categories remain separate. The same no-internet customers appear in multiple service panels, so those panels must not be added together.
+- Course basis: BI2 frequency and relative-frequency discussion, especially pp. 80-91. Missing-value handling is the project implementation choice.
+
+## D09 Numeric distributions and correlation
+
+- Display means, medians, quartiles and standard deviations. Use 12 equal-width histogram bins as a reproducible visual setting, not a new feature or a teacher-specified rule.
+- Compare numeric distributions by observed Churn label using boxplots. The full-sample IQR audit and within-label boxplot outliers use different reference distributions; subgroup outliers can appear even when the full-sample screen flags none. No observations are removed from either.
+- Calculate Pearson correlation for tenure, MonthlyCharges and TotalCharges using pairwise complete records. Exclude IDs and arbitrary category codes; keep Churn comparisons in separate descriptive tables and plots.
+- Pearson measures linear association. It is not a causal claim or significance test. No p-values, confidence intervals or generalization to a verified population are reported.
+- Tenure and accumulated charges have r approximately 0.826 (n=7,032). Accumulation provides a plausible interpretation; this is not an automatic feature-removal rule for C's decision tree.
+- Course basis: BI2 descriptive statistics and distributions; the screenshot assignment requires relationship checks. Boxplot styling and Pearson implementation are project choices, not claimed to be mandated in every detail by the teacher.

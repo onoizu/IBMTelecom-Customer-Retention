@@ -1,0 +1,3 @@
+# Only figure generation needs third-party packages; tables use the standard library.
+matplotlib==3.11.2
+numpy==2.5.4

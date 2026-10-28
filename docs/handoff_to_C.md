@@ -13,4 +13,15 @@ The cleaned dataset is available at `data/processed/telco_clean.csv`. Read `data
 - No tenure bands or service counts have been created. Define boundaries, inclusion of base services and handling of no-service states before deriving these metrics.
 - There are no calendar dates; do not describe this as a validated future-period forecast.
 
-Rebuild with `python3 scripts/clean_data.py` and verify with `python3 scripts/verify_cleaning.py`. The cell-level log is in `reports/cleaning/cell_changes.csv`, the counts in `reports/cleaning/summary.json`, and the reasoning in decision D02. The executed notebook `notebooks/02_data_cleaning.ipynb` shows the transformation and checks. EDA will follow in Stage 3.
+Rebuild with `python3 scripts/clean_data.py` and verify with `python3 scripts/verify_cleaning.py`. The cell-level log is in `reports/cleaning/cell_changes.csv`, the counts in `reports/cleaning/summary.json`, and the reasoning in decision D02. The executed notebook `notebooks/02_data_cleaning.ipynb` shows the transformation and checks. Stage 3 EDA is now available below.
+
+## Stage 3 descriptive EDA update
+
+The updated modeling scope is a decision tree, not the older K-means plan. B has completed descriptive EDA in `reports/eda/` and `notebooks/03_exploratory_analysis.ipynb`. The cleaned CSV is unchanged.
+
+- Contract shares: month-to-month 1,655/3,875 (42.71%); one year 166/1,473 (11.27%); two year 48/1,695 (2.83%).
+- Median tenure: 10 months for Yes and 38 for No. Median monthly charges: 79.65 for Yes and 64.43 for No, in source units.
+- Tenure versus TotalCharges: Pearson r=0.826 using 7,032 complete pairs; this is a relationship to consider, not a directive to remove a predictor.
+- These are full-sample, unadjusted observations. They do not prove intervention effects or measure held-out model performance. Do not select or tune the final model on the test set based on these results.
+- No tree, split, model encoding, tenure bands, optimized thresholds or customer segments were created. Use the raw category definitions and make model-side decisions within training/validation.
+- D can reuse the figures and exact counts, but final profiles and business insights should be developed with the model results.

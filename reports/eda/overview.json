@@ -1,0 +1,10 @@
+{
+  "customers": 7043,
+  "churn_counts": {
+    "No": 5174,
+    "Yes": 1869
+  },
+  "churn_share": 0.2653698707936959,
+  "clean_sha256": "dd268a5970f95d3382f0f985bd8ac917e78203e2d055939ae7dfdc96d661823f",
+  "scope": "Full-sample descriptive EDA; not held-out model evaluation"
+}

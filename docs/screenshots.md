@@ -32,3 +32,13 @@ Suggested filenames: `04_cleaning_rule_and_run.png`, `05_cleaning_before_after.p
 - EDA: show the grouping or calculation code and resulting chart/table; state denominators.
 - Export high-resolution figures for report/slides separately from process screenshots.
 - Capture later stages only after the corresponding operations have actually run.
+
+## Stage 3 EDA checkpoints
+
+Open `notebooks/03_exploratory_analysis.ipynb`. The outputs were actually generated with `python3 scripts/run_audit_notebook.py --stage eda`.
+
+1. Capture section 1 code and output: filtering each contract category, counting Yes labels, dividing by group size, and the resulting three rates. This demonstrates the calculation and denominator choice.
+2. Capture section 2 code and output: missing-aware numeric summaries and the complete-pair correlation calculation. Keep valid/missing counts visible.
+3. Section 3 verifies category totals, independent correlations and reproducibility. Capture it if validation evidence is needed.
+
+Use `07_eda_group_rates.png` and `08_eda_missing_denominators.png`. For report/slides, use the exported figure files directly rather than screenshotting chart previews. A figure alone does not replace the code-and-output process record.

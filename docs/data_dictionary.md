@@ -44,3 +44,17 @@ The indicator is the only added field. There are no tenure bands, service counts
 - Contract categories have a duration order, but codes 0/1/2 would not be actual month counts. Record the encoding rationale.
 - No phone service and No internet service are meaningful states, not blanks.
 - No business-derived metrics have been created. Specify consistent groups and service-count definitions before handoff.
+
+## EDA metrics
+
+| Output metric | Definition | Denominator or convention |
+| --- | --- | --- |
+| n | Customers in a categorical group | Every customer with that category |
+| churn_yes | Customers labeled Yes in a group | Count, not a proportion |
+| churn_rate | churn_yes / n | Within-group observed label share |
+| valid_n / missing_n | Known / missing numeric values in a label group | TotalCharges excludes 11 unknown values where required |
+| sample_std | Sample standard deviation | n-1 denominator |
+| q1 / q3 | 25th / 75th percentiles | Inclusive linear interpolation |
+| pearson_r | Centered cross-product divided by centered sums-of-squares product | Pairwise complete observations; pair_n is reported |
+
+The tables do not add model features to the cleaned CSV. Histogram bins are display settings only.

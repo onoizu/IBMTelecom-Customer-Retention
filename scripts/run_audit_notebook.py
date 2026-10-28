@@ -13,9 +13,10 @@ import argparse
 
 ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument('--stage', choices=['audit', 'cleaning'], default='audit')
+parser.add_argument('--stage', choices=['audit', 'cleaning', 'eda'], default='audit')
 stage = parser.parse_args().stage
-filename = '01_raw_data_audit.ipynb' if stage == 'audit' else '02_data_cleaning.ipynb'
+filename = {'audit': '01_raw_data_audit.ipynb', 'cleaning': '02_data_cleaning.ipynb',
+            'eda': '03_exploratory_analysis.ipynb'}[stage]
 path = ROOT / 'notebooks' / filename
 notebook = json.loads(path.read_text())
 namespace = {'__name__': '__main__'}

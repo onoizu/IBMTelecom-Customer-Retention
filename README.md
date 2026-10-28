@@ -4,7 +4,33 @@ COMP3134 BI-enabled CRM group project. Part B covers data preparation and explor
 
 ## Current stage
 
-Stages 1 and 2 are complete: the original Kaggle CSV is preserved and audited, and a separate cleaned CSV retains all 7,043 customers. Eleven whitespace-only TotalCharges values are represented as missing, with a new TotalChargesMissing indicator. No records are removed, no charges are imputed, and service categories are unchanged. EDA, modeling, report prose and slides are later stages.
+Stages 1, 2 and 3 are complete: the original Kaggle CSV is preserved and audited, and a separate cleaned CSV retains all 7,043 customers. Eleven whitespace-only TotalCharges values are represented as missing, with a new TotalChargesMissing indicator. No records are removed, no charges are imputed, and service categories are unchanged. Descriptive EDA is complete with six figure sets and underlying tables. Decision-tree modeling belongs to C; final report prose and slides remain to be prepared.
+
+## Reproduce EDA
+
+For tables and checks, Python 3.10+ and its standard library are sufficient:
+
+```sh
+python3 scripts/eda.py --tables-only
+python3 scripts/verify_eda.py
+python3 scripts/run_audit_notebook.py --stage eda
+```
+
+For figures, use a Python 3.12+ virtual environment and install the tested plotting versions:
+
+```sh
+python3 -m pip install -r requirements-eda.txt
+python3 scripts/eda.py
+```
+
+- [EDA findings and limitations](reports/eda/eda.md)
+- [Executed EDA notebook](notebooks/03_exploratory_analysis.ipynb)
+- [Figure files in PNG and SVG](reports/eda/figures)
+- [Category counts and rates](reports/eda/category_churn.csv)
+- [Numeric summaries](reports/eda/numeric_summary.csv)
+- [Numeric correlations and sample sizes](reports/eda/numeric_correlations.csv)
+
+These are full-sample descriptive results, not causal estimates or held-out decision-tree performance. No customer segments, derived business features or model fitting are included.
 
 ## Reproduce cleaning
 
@@ -31,7 +57,7 @@ python3 scripts/audit_data.py
 
 The script resolves paths relative to the repository, verifies the raw SHA-256, and regenerates the audit outputs without rewriting the raw CSV.
 
-- [Audit results and screenshot sections](reports/audit/audit.md)
+- [Audit results](reports/audit/audit.md)
 - [Decision log with evidence and alternatives](docs/decision_log.md)
 - [Initial field dictionary](docs/data_dictionary.md)
 - [Source and observation-period limitations](docs/data_source.md)

@@ -1,0 +1,4 @@
+left,right,pair_n,excluded_n,pearson_r
+tenure,MonthlyCharges,7043,0,0.24789985628615005
+tenure,TotalCharges,7032,11,0.825880460933202
+MonthlyCharges,TotalCharges,7032,11,0.6510648032262025
