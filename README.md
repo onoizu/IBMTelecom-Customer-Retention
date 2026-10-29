@@ -1,127 +1,87 @@
 # IBM Telco Customer Retention
 
-COMP3134 BI-enabled CRM group project. This repository combines data preparation and descriptive EDA (Part B) with decision-tree modelling and priority-customer identification (Part C).
+**Customer Churn Analysis and Interpretable Machine Learning**  
+COMP3134 — BI-enabled CRM Group Project
 
-## Current stage
+## Project Overview
 
-Stages 1, 2 and 3 are complete: the original Kaggle CSV is preserved and audited, and a separate cleaned CSV retains all 7,043 customers. Eleven whitespace-only TotalCharges values are represented as missing, with a new TotalChargesMissing indicator. No records are removed, no charges are imputed, and service categories are unchanged. Descriptive EDA is complete with six figure sets and underlying tables. Decision-tree modelling is now included: the cleaned data feed a reproducible training/validation/test workflow, three priority leaves and 20 training-subsample stability checks. Final report prose, PDF-generation code and slides are not included.
+This project explores how customer data and interpretable machine learning can support retention planning for a telecommunications business. Using the IBM Telco Customer Churn dataset distributed through Kaggle, the project combines data auditing, cleaning, exploratory analysis and decision-tree modelling to identify patterns associated with churn and customer groups worth investigating for retention initiatives.
 
-## Reproduce decision-tree modelling
+The analysis covers **7,043 customer records**. The focus is on producing transparent, reproducible findings that connect model outputs with practical CRM questions.
 
-Use Python 3.12 and a dedicated virtual environment. The EDA and model requirement files record different tested plotting versions; install them in separate environments.
+## Objectives
 
-```sh
-python3.12 -m venv .venv-model
-source .venv-model/bin/activate
-python -m pip install -r requirements-model.txt
-python scripts/model_decision_tree.py
-```
+- Examine how customer characteristics, service subscriptions and account information relate to churn.
+- Build an interpretable classification model to identify customers associated with higher churn risk.
+- Translate decision-tree rules into understandable customer groups for retention planning.
+- Assess model performance and the stability of the selected groups.
 
-The script reads `data/processed/telco_clean.csv` directly and checks its SHA-256 against `reports/cleaning/summary.json`. It resolves paths relative to this repository, so it also runs from another working directory. Cleaning and raw data are not rewritten. Each run overwrites the local model outputs in `reports/model/`. These generated files are ignored by Git and are not uploaded; paths listed below are available after running the script.
+## Approach
 
-### Inputs and modelling decisions
+### 1. Data Auditing and Cleaning
 
-- Target: `Churn`, mapped as No=0 and Yes=1. There are 18 raw predictors.
-- Customer information: `gender`, `SeniorCitizen`, `Partner`, `Dependents`.
-- Service subscriptions: `PhoneService`, `MultipleLines`, `InternetService`, `OnlineSecurity`, `OnlineBackup`, `DeviceProtection`, `TechSupport`, `StreamingTV`, `StreamingMovies`.
-- Account information: `tenure`, `MonthlyCharges`, `Contract`, `PaperlessBilling`, `PaymentMethod`.
-- Excluded: `customerID` (identifier), `Churn` (target), `TotalCharges` (simplification given its overlap with tenure/monthly charges), and `TotalChargesMissing` (audit indicator). Excluding overlapping fields is a project choice, not a requirement of decision trees.
-- Stratified split with seed 42: 4,225 training, 1,409 validation and 1,409 test customers (60%/20%/20%). Missing-value filling and full one-hot encoding are fitted within the pipeline on training data only. No-service categories stay distinct.
-- Training-only five-fold cross-validation compares maximum depths 2/3/4 and minimum leaf sizes 50/100/200 using average precision (AP). The selected tree has maximum depth 4 and at least 100 training customers per leaf.
-- Validation F1 selects a classification threshold of 0.334545. This threshold is separate from the tree's feature cutoffs and its default 0.5 classification threshold. AP is not accuracy.
-- Three priority leaves are selected by training churn proportion, with training size breaking ties. Test labels do not select the groups. Other customers remain `Other`; the three groups are not a complete segmentation of the customer base.
+Preserved the original CSV and verified its integrity using SHA-256 checks. Audited missing values and service-category relationships, then produced a separate cleaned dataset retaining every customer record.
 
-### Saved results and figures
+Eleven whitespace-only `TotalCharges` values were represented as missing and tracked through a `TotalChargesMissing` indicator. No customer records were removed, and no charge values were imputed during cleaning.
 
-At the selected threshold, test accuracy is 76.1%, precision 53.8%, recall 69.3%, ROC-AUC 0.826 and AP 0.600. Predicting No for everyone would give 73.5% accuracy, so accuracy alone is not a useful justification. The model identifies 259 of 374 observed churners and flags 222 non-churners.
+### 2. Exploratory Data Analysis
 
-The priority groups are defined by the fitted tree. These test results describe held-out customer records rather than future intervention effects:
+Produced six figure sets and supporting tables to examine customer profiles, churn patterns and relationships among numerical variables. Kept full-sample descriptive findings separate from model evaluation outputs.
 
-- **S1 - New fiber customers on monthly contracts:** tenure 0-1 months; leaf 24; training 129/152 (84.9%), test 40/44 (90.9%).
-- **S2 - Early-tenure fiber customers on monthly contracts:** tenure 2-15 months; leaf 25; training 310/481 (64.4%), test 102/166 (61.4%).
-- **S3 - New DSL customers without the technical-support add-on:** monthly contract, tenure 0-3 months, TechSupport=No; leaf 18; training 101/182 (55.5%), test 37/60 (61.7%). The encoded rule is non-fiber plus TechSupport=No; the validated service dependencies make this DSL. Not buying the add-on does not imply that general customer service is unavailable.
+### 3. Decision-Tree Modelling
 
-Together, these leaves cover 270/1,409 test customers (19.2%) and 179/374 test churners (47.9%). The proportions have sampling uncertainty; the exported Wilson intervals do not establish future risk or treatment effects.
+Built a reproducible classification workflow using 18 predictors covering customer information, service subscriptions and account characteristics. Split the data into training, validation and test sets in a **60% / 20% / 20%** ratio, with stratification and a fixed random seed.
 
-- Decision-tree diagram (`reports/model/decision_tree.png`), plain-text tree (`reports/model/decision_tree.txt`), exact leaf rules (`reports/model/DT_rules.csv`) and test leaf profiles (`reports/model/DT_profiles.csv`).
-- Test precision-recall curve (`reports/model/performance.png`), test metrics (`reports/model/metrics.csv`), metrics at threshold 0.5 (`reports/model/metrics_threshold_05.csv`), test predictions (`reports/model/test_predictions.csv`) and permutation importance (`reports/model/DT_importance.csv`).
-- Priority groups with training/test counts and intervals (`reports/model/priority_segments.csv`).
-- Stability runs (`reports/model/stability_runs.csv`), feature recurrence (`reports/model/feature_stability.csv`), group membership summary (`reports/model/segment_stability.csv`) and all matched memberships (`reports/model/stability_segment_matches.csv`).
-- Cross-validation candidates (`reports/model/DT_cv.csv`), saved split (`reports/model/data_split.csv`), run metadata (`reports/model/run_info.json`) and fitted pipeline (`reports/model/decision_tree_model.joblib`).
+Fitted missing-value handling and one-hot encoding on training data within the modelling pipeline. Compared tree configurations through five-fold training cross-validation using average precision. The selected tree used a maximum depth of four and a minimum of 100 training customers per leaf. A separate classification threshold was selected using validation F1.
 
-### Stability and interpretation limits
+### 4. Customer Group Analysis
 
-Twenty fixed seeds (100-119) each sample 80% of the original training customers. Tree settings stay fixed; the same validation customers are used for comparisons, and test customers are excluded from stability refitting and matching. Match groups by customer-membership Jaccard overlap, not node ID. These overlapping subsamples are a sensitivity check, not 20 independent final evaluations.
+Selected three priority leaves based on training churn proportions, without using test labels to choose the groups:
 
-Contract, tenure, internet service and monthly charges appear in all 20 refits; Contract is always the root. Mean membership overlap is 0.642/0.692/0.704 for S1/S2/S3, with minima 0.145/0.235/0.358. Broad features recur, but exact segment boundaries can change. Feature recurrence does not establish that the tree structure is unchanged.
+- **New fibre customers on monthly contracts:** tenure of 0–1 months.
+- **Early-tenure fibre customers on monthly contracts:** tenure of 2–15 months.
+- **New DSL customers without the technical-support add-on:** monthly contracts and tenure of 0–3 months.
 
-The sample has no dates or customer histories. Earlier exploration has already inspected this test split, so it is not a fresh final validation. Tree rules, feature importance and group differences describe associations, not causes. Leaf proportions are not separately calibrated individual future probabilities. High risk does not prove that a customer is easier to retain. Strategies should be evaluated in future controlled retention pilots, including costs and complaints. Monthly charges are not profit or customer lifetime value.
+These groups identify areas for further investigation, such as onboarding support and early customer experience. They do not establish which retention action will work best.
 
-Generated model outputs contain English labels and remain local, including customer-level predictions, split assignments, figures and the fitted pipeline. Report/PDF-generation scripts, report-specific dependencies, bilingual report outputs, local environments and caches are also excluded from this modelling contribution.
+## Results
 
-## Reproduce EDA
+At the validation-selected threshold, the model achieved the following results on the test split:
 
-For tables and checks, Python 3.10+ and its standard library are sufficient:
+- **ROC-AUC:** 0.826
+- **Average precision:** 0.600
+- **Precision:** 53.8%
+- **Recall:** 69.3%
+- **Accuracy:** 76.1%
 
-```sh
-python3 scripts/eda.py --tables-only
-python3 scripts/verify_eda.py
-python3 scripts/run_audit_notebook.py --stage eda
-```
+The model identified **259 of 374 observed churners**, while flagging 222 non-churners. Accuracy was interpreted alongside other metrics because predicting no churn for every customer would already achieve 73.5% accuracy.
 
-For figures, use a Python 3.12+ virtual environment and install the tested plotting versions:
+The three priority groups contained **19.2% of test customers** and **47.9% of observed test churners**, concentrating a substantial share of churn cases into a smaller subset of customers.
 
-```sh
-python3 -m pip install -r requirements-eda.txt
-python3 scripts/eda.py
-```
+## Stability and Interpretation
 
-- [EDA findings and limitations](reports/eda/eda.md)
-- [Executed EDA notebook](notebooks/03_exploratory_analysis.ipynb)
-- [Figure files in PNG and SVG](reports/eda/figures)
-- [Category counts and rates](reports/eda/category_churn.csv)
-- [Numeric summaries](reports/eda/numeric_summary.csv)
-- [Numeric correlations and sample sizes](reports/eda/numeric_correlations.csv)
+Conducted 20 refits on training subsamples to examine feature recurrence and group-membership stability. Contract, tenure, internet service and monthly charges appeared in every refit, while exact group boundaries varied. This supports recurring broad patterns rather than an identical tree structure across runs.
 
-These are full-sample descriptive results, not causal estimates or held-out decision-tree performance. The EDA stage does not fit models or create segments; those outputs are kept separately in `reports/model/`.
+The dataset contains no dates or longitudinal customer histories. Earlier exploration had already inspected the test split, so the reported results should not be treated as a fresh, untouched final evaluation. Findings describe associations rather than causes, and the selected groups are neither calibrated individual future-risk estimates nor evidence of retention effectiveness.
 
-## Reproduce cleaning
+## Deliverables
 
-```sh
-python3 scripts/clean_data.py
-python3 scripts/verify_cleaning.py
-python3 scripts/run_audit_notebook.py --stage cleaning
-```
+- Reproducible Python scripts for auditing, cleaning, EDA and decision-tree modelling.
+- Executed audit, cleaning and exploratory-analysis notebooks.
+- Data-quality reports, a cell-level change log and analysis decision documentation.
+- Generated model outputs, including a tree diagram, segment profiles, evaluation metrics and stability results.
 
-- [Cleaned data](data/processed/telco_clean.csv) and [loading schema](data/processed/schema.json)
-- [Cleaning counts and limitations](reports/cleaning/cleaning.md)
-- [Cell-level change log](reports/cleaning/cell_changes.csv)
-- [Executed cleaning notebook](notebooks/02_data_cleaning.ipynb)
+Audit, cleaning, EDA and modelling are complete. Generated model outputs remain local and can be reproduced by running the scripts. Final report prose, PDF-generation code and presentation slides are outside the scope of this contribution.
 
-The cleaned CSV contains 22 fields. Empty TotalCharges fields mean unknown, not zero. The indicator is a data-quality flag, not an automatically selected model feature. CSV has no native types: numeric parsing and model-side imputation must be explicit.
+## Future Development
 
-## Reproduce the audit
+- Evaluate the model on new, time-stamped customer data.
+- Compare alternative models while considering interpretability.
+- Select operating thresholds using retention capacity and business costs.
+- Test proposed retention actions through controlled pilots that measure outcomes, costs and customer complaints.
 
-Requires Python 3.10 or later, with no third-party packages:
+## Dataset
 
-```sh
-python3 scripts/audit_data.py
-```
+[IBM Telco Customer Churn — Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
 
-The script resolves paths relative to the repository, verifies the raw SHA-256, and regenerates the audit outputs without rewriting the raw CSV.
-
-- [Audit results](reports/audit/audit.md)
-- [Decision log with evidence and alternatives](docs/decision_log.md)
-- [Initial field dictionary](docs/data_dictionary.md)
-- [Source and observation-period limitations](docs/data_source.md)
-- [Handoff for member C](docs/handoff_to_C.md)
-- [Screenshot guide](docs/screenshots.md)
-- [Executable audit walkthrough with actual outputs](notebooks/01_raw_data_audit.ipynb)
-
-To regenerate the notebook outputs with standard Python, run `python3 scripts/run_audit_notebook.py`. This sequential runner executes the saved cells; it is not a Jupyter kernel. The notebook can also be run in a Python notebook editor. Capture code and actual output together for process screenshots.
-
-All project Markdown, code comments, notebook explanations and commit messages are written in English.
-
-Raw source: [BlastChar Telco Customer Churn on Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn), version 1 as reported at retrieval. The exact downloaded CSV and source metadata are in `data/raw/`.
-
-Audit summaries are generated, not hand-edited. Update the script and rerun if checks change. Analysis decisions belong in the decision log. Course slides and personal meeting notes are not copied into this repository.
+This is an academic group project using a public dataset; it does not imply a partnership with IBM or a deployment in a telecommunications business.
