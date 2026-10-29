@@ -25,3 +25,7 @@ The updated modeling scope is a decision tree, not the older K-means plan. B has
 - These are full-sample, unadjusted observations. They do not prove intervention effects or measure held-out model performance. Do not select or tune the final model on the test set based on these results.
 - No tree, split, model encoding, tenure bands, optimized thresholds or customer segments were created. Use the raw category definitions and make model-side decisions within training/validation.
 - D can reuse the figures and exact counts, but final profiles and business insights should be developed with the model results.
+
+## Part C implementation update
+
+The handoff above records the preparation-stage status. Decision-tree preprocessing, splitting, training, validation and test evaluation are now implemented in `scripts/model_decision_tree.py`; running it creates local outputs in `reports/model/`, which are ignored by Git. See the root README for feature decisions, run commands, priority-group definitions and limitations. The cleaned input and all Part B audit, cleaning and EDA outputs are unchanged.
