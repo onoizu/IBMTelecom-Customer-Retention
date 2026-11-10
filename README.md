@@ -170,4 +170,4 @@ python scripts/model_decision_tree.py
 - Tree rules describe associations, not causes, calibrated individual future-risk estimates or intervention benefits.
 - Small groups and varying boundaries require reassessment on new, time-stamped data. Higher observed churn alone does not establish greater treatment benefit or profitability.
 
-The project contributes an interpretable targeting workflow and a measurable pilot proposal. Prospective validation and randomised evaluation are the next steps before operational rollout.
+
