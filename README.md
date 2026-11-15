@@ -2,7 +2,7 @@
 
 **A BI-Enabled CRM Strategy for a Telecom Provider**
 
-COMP3134 Business Intelligence and CRM | Academic group project
+COMP3134 Business Intelligence and CRM | group project
 
 This project connects **data preparation, exploratory analysis, interpretable decision-tree modelling, customer profiles and proposed retention experiments**. Using 7,043 IBM Telco customer records, we turn churn-related patterns into explicit group rules and a plan for testing differentiated support.
 
@@ -63,13 +63,17 @@ Twenty training-subsample refits assess sensitivity of the fixed specification. 
 
 ## 4. Customer Profiles and Insights
 
+
+
 The priority groups are mutually exclusive tree leaves, rather than K-means clusters:
+
 
 - **S1 — New monthly fibre:** month-to-month contract, fibre internet, tenure 0–1 months. **40/44** test customers churned (**90.9%**).
 - **S2 — Early-tenure monthly fibre:** month-to-month contract, fibre internet, tenure 2–15 months. **102/166** churned (**61.4%**).
 - **S3 — New monthly DSL without the support add-on:** month-to-month contract, DSL, tenure 0–3 months and `TechSupport=No`. **37/60** churned (**61.7%**).
 
 S1 and S2 impose no technical-support restriction. `TechSupport=No` means no technical-support add-on; it does not mean general customer service is unavailable.
+
 
 ![Priority customer profiles: rules, test counts and billing characteristics](reports/figures/priority-customer-profiles.jpg)
 
