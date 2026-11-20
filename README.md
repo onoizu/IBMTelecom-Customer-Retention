@@ -109,13 +109,6 @@ Prespecified outcomes should include:
 
 Define the smallest worthwhile effect, sample size and cost/experience limits before launch. Scale only after a useful retention effect is demonstrated with acceptable uncertainty and guardrails. **No intervention lift, savings or ROI has been measured.**
 
-## Reports and Repository Guide
-
-The supplied team documents are preserved unchanged:
-
-- [Part D — Customer Profiles and Business Insights](reports/team/part-d-customer-profiles.docx)
-- [Part E — Targeted Retention Strategies and Pilot Evaluation](reports/team/part-e-retention-strategy.docx)
-- [Integrated project report — supplied draft](reports/team/integrated-project-report.docx), including its existing integration notes and placeholders.
 
 ```text
 data/raw/              Original dataset and source manifests
