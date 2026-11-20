@@ -1,7 +1,9 @@
 # IBM Telco Customer Retention
 
-A Python project exploring customer churn and retention opportunities using 7,043 records from the [IBM Telco Customer Churn dataset](docs/data_source.md). Built for COMP3134 Business Intelligence and Customer Relationship Management.
+A Python project exploring customer churn and retention opportunities using 7,043 records from the [IBM Telco Customer Churn dataset](docs/data_source.md).
 
+
+## 
 ## What we did
 
 - Audited and cleaned the data, handling 11 blank `TotalCharges` values while retaining every customer.
