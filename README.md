@@ -99,7 +99,6 @@ S2 is the proposed main pilot cohort because it contains the largest observed ch
 
 Within each eligible segment, **randomise customers 1:1** to the tailored package or usual service. Freeze membership at enrolment, allow one entry per customer and follow both arms for a proposed **60 days**. Analyse by original assignment, including customers who decline or cannot be reached, and document missing outcomes. Confirm decision-time attribute availability and permitted contact channels before recruitment.
 
-![Proposed within-segment randomised retention pilot and KPIs](reports/figures/retention-pilot-and-kpis.jpg)
 
 Prespecified outcomes should include:
 
